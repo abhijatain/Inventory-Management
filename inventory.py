@@ -2,27 +2,6 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from datetime import datetime
-from st_aggrid import AgGrid, GridOptionsBuilder
-
-
-def display_aggrid(df):
-    gb = GridOptionsBuilder.from_dataframe(df)
-    gb.configure_pagination(paginationAutoPageSize=True)  # Enable pagination
-    gb.configure_side_bar()  # Enable sidebar for search and filters
-    gb.configure_default_column(editable=True)  # Enable column editing
-    gb.configure_grid_options(domLayout='autoHeight')  # Automatically adjust grid height
-
-    grid_options = gb.build()
-
-    # Render AgGrid with wider space for "full-screen" like experience
-    AgGrid(
-        df,
-        gridOptions=grid_options,
-        enable_enterprise_modules=True,  # Enable search, filters, etc.
-        allow_unsafe_jscode=True,
-        height=800,  # Set height to make it occupy more space
-    )
-
 
 # Function to clean and process the data
 def clean_and_process_data(df, num_days):
