@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import streamlit_pandas as sp
 from datetime import datetime
 from st_aggrid import AgGrid, GridOptionsBuilder
 
