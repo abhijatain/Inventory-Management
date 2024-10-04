@@ -37,6 +37,11 @@ st.set_page_config(page_title='Inventory Analysis',  layout='wide', page_icon=':
 
 st.title("Inventory Analysis")
 
+with st.expander("Instructions", expanded=False):
+    st.markdown("# Heading 1")
+    st.markdown("## Heading 2")
+    st.markdown("### Heading 3")
+
         # Ask for lead time and days of stock to maintain before file upload
 lead_time = st.number_input("Enter Lead Time (in days)", min_value=1, value=5)
 days_stock_to_maintain = st.number_input("Enter Days of Stock to Maintain", min_value=1, value=30)
@@ -50,6 +55,7 @@ else:
     st.warning("Please select a valid date range.")
 
 uploaded_file = st.file_uploader("Upload an Excel file", type=["xls", "xlsx"])
+
 
 with st.spinner('Updating Report...'):
     if uploaded_file is not None:
@@ -140,12 +146,11 @@ with st.spinner('Updating Report...'):
             value=int(total_purchases)
         )
                 
-
-        st.title('Re-order')
-        st.dataframe(understock, use_container_width=True)
+        with st.expander("Re-order Items", expanded=False):
+            st.dataframe(understock, use_container_width=True)
         
-        st.title('Overstocked')
-        st.dataframe(overstock, use_container_width=True)
+        with st.expander("Overstocked Items", expanded=False):
+            st.dataframe(overstock, use_container_width=True)
 
         
     else:
