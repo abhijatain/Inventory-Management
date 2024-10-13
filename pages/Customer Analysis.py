@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import altair as alt
 import streamlit as st
 
 st.set_page_config(page_title='Customer Analysis',  layout='wide', page_icon=':ambulance:')
@@ -58,12 +58,33 @@ with st.spinner('Updating Report...'):
 
         st.dataframe(analysis_df, use_container_width=True)
 
-        quantity_data = analysis_df['Quantity Bin'].value_counts()
-        st.subheader("Quanity Wise Breakdown")
-        st.bar_chart(quantity_data)
+        quantity_data = analysis_df['Quantity Bin'].value_counts().reset_index()
 
-        value_data = analysis_df['Value Bin'].value_counts()
-        st.subheader("Value Wise Breakdown")
-        st.bar_chart(value_data)
+# Rename columns for Altair to recognize them
+        quantity_data.columns = ['Quantity Bin', 'count']
+        
+        st.subheader("Quanity Wise Breakdown", divider="orange")
+        st.altair_chart(
+            alt.Chart(quantity_data)
+            .mark_bar(orient="horizontal")
+            .encode(
+                x="count",
+                y="Quantity Bin",
+            ),
+            use_container_width=True,
+        )
+
+        value_data = analysis_df['Value Bin'].value_counts().reset_index()
+        value_data.columns = ['Value Bin', 'count']
+        st.subheader("Value Wise Breakdown", divider="orange")
+        st.altair_chart(
+            alt.Chart(value_data)
+            .mark_bar(orient="horizontal")
+            .encode(
+                x="count",
+                y="Value Bin",
+            ),
+            use_container_width=True,
+        )
     else:
         st.warning("Please upload an Excel file to proceed.")

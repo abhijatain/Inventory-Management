@@ -4,7 +4,7 @@ import pandas as pd
 
 def display_metrics(excess_stock_value, overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value):
     # Create a DataFrame for metrics
-    st.subheader('Results')
+    st.subheader("Results", divider="orange")
     metrics_data = {
         "Results": [
             "Overstocked Items Count", 
@@ -14,7 +14,7 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
             "Reorder Items Count", 
             "Total Sales", 
             "Total Purchases", 
-            "Total Closing Stock Value"
+            "Total Closing Stock Value" 
         ],
         "Value": [
             len(overstock), 
@@ -108,6 +108,7 @@ def display_charts(overstock, understock):
             ),
             use_container_width=True,
         )
+
 
     # Display Overstocked Items chart
     with st.expander("Overstocked Items", expanded=False):
