@@ -42,4 +42,5 @@ def clean_and_process_data(df, num_days, lead_time):
                                            (cleaned_df['Average_sales'] * lead_time) * 1.5, 
                                            -1)
     
+    cleaned_df['Quantity_to_reorder'] = num_days* cleaned_df['Average_sales']
     return cleaned_df

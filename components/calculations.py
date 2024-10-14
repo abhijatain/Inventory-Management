@@ -11,7 +11,7 @@ def calculate_overstock(filtered_df, days_stock_to_maintain):
     return overstock
 
 def calculate_understock(filtered_df, lead_time):
-    understock = filtered_df[(filtered_df['Days_of_Stock'] < (lead_time * 1.5)) & (filtered_df['Days_of_Stock'] >= 0)]
+    understock = filtered_df[(filtered_df['Days_of_Stock'] < ((lead_time * 1.5))) & (filtered_df['Days_of_Stock'] >= 0)]
     return understock
 
 def calculate_negative_stock(filtered_df):

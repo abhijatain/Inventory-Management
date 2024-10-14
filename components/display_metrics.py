@@ -2,9 +2,10 @@ import streamlit as st
 import altair as alt
 import pandas as pd
 
-def display_metrics(excess_stock_value, overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value):
+def display_metrics(total_opening_stock_value,excess_stock_value, overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value):
     # Create a DataFrame for metrics
     st.subheader("Results", divider="orange")
+    s_t_r = (total_sales)/((total_closing_stock_value+total_opening_stock_value)/2)
     metrics_data = {
         "Results": [
             "Overstocked Items Count", 
@@ -14,7 +15,9 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
             "Reorder Items Count", 
             "Total Sales", 
             "Total Purchases", 
-            "Total Closing Stock Value" 
+            "Total Closing Stock Value",
+            "Total Opening Stock Value",
+            "Stock Turnover Ratio" 
         ],
         "Value": [
             len(overstock), 
@@ -24,7 +27,9 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
             len(understock), 
             total_sales, 
             total_purchases, 
-            total_closing_stock_value
+            total_closing_stock_value,
+            total_opening_stock_value,
+            s_t_r
         ],
         "Comments": [
             "High overstock might indicate over-purchasing",  # Overstock comment
@@ -34,14 +39,17 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
             "Re-order now to avoid stockouts",                 # Reorder items comment
             "Good sales performance",                          # Total sales comment
             "Purchases should align with forecast",            # Total purchases comment
-            "Closing stock value reflects end-of-period inventory"  # Closing stock value comment
+            "Closing stock value reflects end-of-period inventory",
+            "Opening stock value reflects start-of-period inventory",
+               "A higher STR indicates efficient inventory management."   # Closing stock value comment
         ]
     }
 
     metrics_df = pd.DataFrame(metrics_data)
 
     # Format values with commas for thousands separator
-    metrics_df["Value"] = metrics_df["Value"].apply(lambda x: f"{int(x):,}")
+    metrics_df["Value"] = metrics_df["Value"].apply(lambda x: f"{x:,.2f}")
+
 
     # Apply color formatting based on the metric type
     def color_metrics(val, metric):
@@ -65,7 +73,7 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
         elif metric == "Total Purchases":
             color = 'green' if val > 9000 else 'orange'
         else:  # "Total Closing Stock Value"
-            color = 'green' if val > 8000 else 'orange'
+            color = 'green' if val > 3 else 'orange'
 
         return f'color: {color}'
 
@@ -73,14 +81,14 @@ def display_metrics(excess_stock_value, overstock, understock, negative_stock, t
     styled_df = metrics_df.style.apply(lambda x: [color_metrics(v, m) for v, m in zip(x, metrics_df['Results'])], subset=["Value"])
 
     # Display the table with Streamlit
-    st.dataframe(styled_df,use_container_width=True,)
+    st.dataframe(metrics_df,use_container_width=True,)
 
-def display_charts(overstock, understock):
+def display_charts(overstock, understock,negative_stock,filtered_df):
     # Display Re-order Items chart
     with st.expander("Re-order Items", expanded=True):
         st.data_editor(understock[['SKUs', 'Open_quantity', 'In_quantity', 
                                    'Out_quantity', 'Close_quantity', 
-                                   'Average_sales', 'Days_of_Stock']], use_container_width=True)
+                                   'Average_sales', 'Days_of_Stock','Quantity_to_reorder','Reorder_point']], use_container_width=True)
         
         st.caption("NOTE: The :diamonds: location shows the reorder point.")
         st.altair_chart(
@@ -143,3 +151,10 @@ def display_charts(overstock, understock):
             ),
             use_container_width=True,
         )
+
+
+    with st.expander("Negative & Unsold Stock Items", expanded=False):
+        st.data_editor(negative_stock, use_container_width=True)
+
+    with st.expander("All Items", expanded=False):
+        st.data_editor(filtered_df, use_container_width=True)

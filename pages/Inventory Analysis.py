@@ -32,12 +32,13 @@ with st.spinner('Updating Report...'):
         total_sales = (filtered_df['Out_quantity'] * filtered_df['Out_rate']).sum()
         total_purchases = (filtered_df['In_quantity'] * filtered_df['In_rate']).sum()
         total_closing_stock_value = (filtered_df['Close_quantity'] * filtered_df['Close_rate']).sum()
+        total_opening_stock_value = (filtered_df['Open_quantity'] * filtered_df['Open_rate']).sum()
         unsold_stock_value = (filtered_df[filtered_df['Out_quantity'] == 0]['Close_quantity'] * filtered_df['Close_rate']).sum()
         excess_stock_value = overstock['Excess_Stock_Value'].sum()
 
         # Display metrics and charts
-        display_metrics(excess_stock_value,overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value)
-        display_charts(overstock, understock)
+        display_metrics(total_opening_stock_value,excess_stock_value,overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value)
+        display_charts(overstock, understock,negative_stock,filtered_df)
      
     else:
         st.warning("Please upload an Excel file to proceed.")
