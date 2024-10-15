@@ -16,5 +16,9 @@ def calculate_understock(filtered_df, lead_time):
     return understock
 
 def calculate_negative_stock(filtered_df):
-    negative_stock = filtered_df[filtered_df['Days_of_Stock'] < 0]
+    negative_stock = filtered_df[(filtered_df['Close_quantity'] < 0)|(filtered_df['Open_quantity'] < 0)|(filtered_df['In_quantity'] < 0)|(filtered_df['Out_quantity'] < 0)]
     return negative_stock
+
+def calculate_unsold_stock(filtered_df):
+    unsold_stock = filtered_df[filtered_df['Out_value'] == 0]
+    return unsold_stock

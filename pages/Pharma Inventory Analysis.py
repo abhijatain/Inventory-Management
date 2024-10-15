@@ -3,7 +3,7 @@ import streamlit as st
 from components.data_processing import clean_and_process_data
 from components.user_inputs import get_user_inputs
 from components.display_metrics import display_metrics, display_charts
-from components.calculations import calculate_overstock, calculate_understock, calculate_negative_stock
+from components.calculations import calculate_unsold_stock,calculate_overstock, calculate_understock, calculate_negative_stock
 
 
 st.set_page_config(page_title='Inventory Analysis',  layout='wide', page_icon=':ambulance:')
@@ -28,6 +28,7 @@ with st.spinner('Updating Report...'):
         overstock = calculate_overstock(filtered_df, days_stock_to_maintain)
         understock = calculate_understock(filtered_df, lead_time)
         negative_stock = calculate_negative_stock(filtered_df)
+        unsold_stock = calculate_unsold_stock(filtered_df)
 
         total_sales = (filtered_df['Out_quantity'] * filtered_df['Out_rate']).sum()
         total_purchases = (filtered_df['In_quantity'] * filtered_df['In_rate']).sum()
@@ -38,7 +39,7 @@ with st.spinner('Updating Report...'):
 
         # Display metrics and charts
         display_metrics(total_opening_stock_value,excess_stock_value,overstock, understock, negative_stock, total_sales, total_purchases, unsold_stock_value, total_closing_stock_value)
-        display_charts(overstock, understock,negative_stock,filtered_df)
+        display_charts(overstock, understock,negative_stock,filtered_df,unsold_stock)
      
     else:
         st.warning("Please upload an Excel file to proceed.")

@@ -83,7 +83,7 @@ def display_metrics(total_opening_stock_value,excess_stock_value, overstock, und
     # Display the table with Streamlit
     st.dataframe(metrics_df,use_container_width=True,)
 
-def display_charts(overstock, understock,negative_stock,filtered_df):
+def display_charts(overstock, understock,negative_stock,filtered_df,unsold_stock):
     # Display Re-order Items chart
     with st.expander("Re-order Items", expanded=True):
         st.data_editor(understock[['SKUs', 'Open_quantity', 'In_quantity', 
@@ -152,8 +152,10 @@ def display_charts(overstock, understock,negative_stock,filtered_df):
             use_container_width=True,
         )
 
+    with st.expander("Unsold Stock Items", expanded=False):
+        st.data_editor(unsold_stock, use_container_width=True)
 
-    with st.expander("Negative & Unsold Stock Items", expanded=False):
+    with st.expander("Negative Stock Items", expanded=False):
         st.data_editor(negative_stock, use_container_width=True)
 
     with st.expander("All Items", expanded=False):
