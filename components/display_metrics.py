@@ -122,7 +122,7 @@ def display_charts(overstock, understock,negative_stock,filtered_df):
     with st.expander("Overstocked Items", expanded=False):
         st.dataframe(overstock[['SKUs', 'Open_quantity', 'In_quantity', 
                                 'Out_quantity', 'Close_quantity', 
-                                'Average_sales', 'Days_of_Stock', 'Excess_Stock_Value']], 
+                                'Average_sales', 'Days_of_Stock', 'Excess_Stock_Value','Ideal_Stock_Value']], 
                                 use_container_width=True)
         
         st.caption("NOTE: The :diamonds: location shows the desirable value of stock to have")
