@@ -153,10 +153,16 @@ def display_charts(overstock, understock,negative_stock,filtered_df,unsold_stock
         )
 
     with st.expander("Unsold Stock Items", expanded=False):
-        st.data_editor(unsold_stock, use_container_width=True)
+        st.data_editor(unsold_stock[['SKUs', 'Open_quantity', 'Open_rate', 'Open_value', 
+                          'In_quantity', 'In_rate', 'In_value', 
+                          'Out_quantity', 'Out_rate', 'Out_value', 
+                          'Close_quantity', 'Close_rate', 'Close_value']], use_container_width=True)
 
     with st.expander("Negative Stock Items", expanded=False):
-        st.data_editor(negative_stock, use_container_width=True)
+        st.data_editor(negative_stock[['SKUs', 'Open_quantity', 'Open_rate', 'Open_value', 
+                          'In_quantity', 'In_rate', 'In_value', 
+                          'Out_quantity', 'Out_rate', 'Out_value', 
+                          'Close_quantity', 'Close_rate', 'Close_value']], use_container_width=True)
 
     with st.expander("All Items", expanded=False):
         st.data_editor(filtered_df, use_container_width=True)
