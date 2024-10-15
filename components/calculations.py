@@ -8,6 +8,7 @@ def calculate_overstock(filtered_df, days_stock_to_maintain):
         (overstock['Days_of_Stock'] - days_stock_to_maintain) * overstock['Close_rate'] * overstock['Average_sales']
     )
     overstock['Ideal_Stock_Value'] = overstock['Close_value'] - overstock['Excess_Stock_Value']
+    overstock['Ideal_Stock_Quanity'] = days_stock_to_maintain*overstock['Average_sales']
     return overstock
 
 def calculate_understock(filtered_df, lead_time):

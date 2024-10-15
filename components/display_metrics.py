@@ -125,19 +125,19 @@ def display_charts(overstock, understock,negative_stock,filtered_df):
                                 'Average_sales', 'Days_of_Stock', 'Excess_Stock_Value','Ideal_Stock_Value']], 
                                 use_container_width=True)
         
-        st.caption("NOTE: The :diamonds: location shows the desirable value of stock to have")
+        st.caption("NOTE: The :diamonds: location shows the desirable quantity of stock to have")
         st.altair_chart(
             # Layer 1: Bar chart.
-            alt.Chart(overstock.sort_values(by='Close_value',ascending=False).head(50))
+            alt.Chart(overstock.sort_values(by='Close_quantity',ascending=False).head(50))
             .mark_bar(
                 orient="horizontal",
             )
             .encode(
-                x="Close_value",
+                x="Close_quantity",
                 y="SKUs",
             )
             # Layer 2: Chart showing the ideal stock value.
-            + alt.Chart(overstock.sort_values(by='Close_value',ascending=False).head(50))
+            + alt.Chart(overstock.sort_values(by='Close_quantity',ascending=False).head(50))
             .mark_point(
                 shape="diamond",
                 filled=True,
@@ -146,7 +146,7 @@ def display_charts(overstock, understock,negative_stock,filtered_df):
                 opacity=1,
             )
             .encode(
-                x="Ideal_Stock_Value",
+                x="Ideal_Stock_Quanity",
                 y="SKUs",
             ),
             use_container_width=True,
