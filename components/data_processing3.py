@@ -11,7 +11,8 @@ def clean_and_process_data(df, num_days, lead_time):
     # Slice the dataframe to remove that row and everything above it
     cleaned_df = df.iloc[first_occurrence_index + 1:]
 
-    cleaned_df = cleaned_df.drop(cleaned_df.columns[1], axis=1)
+    if cleaned_df.shape[1] == 14:
+        cleaned_df = cleaned_df.drop(cleaned_df.columns[1], axis=1)
     # Reset index and set new column names
     cleaned_df.columns = ['SKUs', 'Open_quantity', 'Open_rate', 'Open_value',
                         'In_quantity', 'In_rate', 'In_value',
